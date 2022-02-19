@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ChatBox extends StatefulWidget {
   final int index;
 
-  const ChatBox({Key key, this.index}) : super(key: key);
+  const ChatBox({Key? key, required this.index}) : super(key: key);
   @override
   _ChatBoxState createState() => _ChatBoxState();
 }

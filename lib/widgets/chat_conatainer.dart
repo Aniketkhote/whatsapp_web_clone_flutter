@@ -3,11 +3,11 @@ import 'package:whatsapp_web_clone/widgets/chat_box.dart';
 import 'package:whatsapp_web_clone/widgets/welcome.dart';
 
 class ChatContainer extends StatelessWidget {
-  final int index;
+  final int? index;
   final bool isChatActive;
-  ChatContainer({this.index, this.isChatActive});
+  ChatContainer({this.index, this.isChatActive = false});
   @override
   Widget build(BuildContext context) {
-    return isChatActive ? ChatBox(index: index) : welcomePage();
+    return isChatActive ? ChatBox(index: index!) : welcomePage();
   }
 }

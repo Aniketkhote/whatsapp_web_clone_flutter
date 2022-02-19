@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:whatsapp_web_clone/constant.dart';
 import 'package:whatsapp_web_clone/widgets/chat_conatainer.dart';
+import 'package:quickly/quickly.dart';
 
 class ChatListContainer extends StatelessWidget {
   @override
@@ -9,57 +11,33 @@ class ChatListContainer extends StatelessWidget {
       children: [
         nav(),
         searchBar(),
-        Expanded(
-          child: chatList(),
-        ),
+        chatList().expand(),
       ],
     );
   }
 
-  Container chatList() {
-    return Container(
-      padding: EdgeInsets.only(bottom: 10),
-      child: ListView.builder(
-        itemCount: 50,
-        itemBuilder: (context, index) {
-          return Container(
-            padding: EdgeInsets.only(bottom: 10, left: 20),
-            child: InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => ChatContainer(
-                      index: index,
-                      isChatActive: true,
-                    ),
-                  ),
-                );
-              },
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    child: Icon(
-                      Icons.person,
-                      size: 35,
-                      color: Colors.white30,
-                    ),
-                    backgroundColor: Colors.white12,
-                  ),
-                  Expanded(child: chatContent()),
-                ],
-              ),
+  Widget chatList() {
+    return ListView.builder(
+      itemCount: 50,
+      itemBuilder: (context, index) {
+        return Row(
+          children: [
+            CircleAvatar(
+              child: Icon(Icons.person, color: Colors.white30),
+              backgroundColor: Colors.white12,
             ),
-          );
-        },
-      ),
-    );
+            chatContent().expand(),
+          ],
+        ).pl12.onTap(() =>
+            Get.to(() => ChatContainer(index: index, isChatActive: true)));
+      },
+    ).pb12;
   }
 
   Container chatContent() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20),
-      padding: EdgeInsets.symmetric(vertical: 10),
+      margin: FxPadding.px12,
+      padding: FxPadding.py12,
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(color: Colors.white24, width: .7),
@@ -67,7 +45,7 @@ class ChatListContainer extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Expanded(child: nameAndMessage()),
+          nameAndMessage().expand(),
           time(),
         ],
       ),
@@ -77,18 +55,9 @@ class ChatListContainer extends StatelessWidget {
   Column time() {
     return Column(
       children: [
-        Text(
-          '5.45 PM',
-          style: TextStyle(
-            color: Colors.white70,
-            fontSize: 14,
-          ),
-        ),
-        Icon(
-          Icons.volume_off,
-          color: Colors.white30,
-          size: 20,
-        ),
+        Text('5.45 PM').caption1.color(Colors.white70),
+        SizedBox(height: 8),
+        Icon(Icons.volume_off, color: Colors.white30, size: 18),
       ],
     );
   }
@@ -98,29 +67,24 @@ class ChatListContainer extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: Text(
-            'datadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadatadata',
-            style: TextStyle(
-                color: Colors.white70,
-                fontSize: 16,
-                fontWeight: FontWeight.w600),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
+          padding: FxPadding.pr12,
+          child: Text('Random Name')
+              .body2
+              .bold
+              .color(Colors.white70)
+              .ellipsis
+              .maxLine(1),
         ),
-        Text(
-          'data',
-          style: TextStyle(color: Colors.white70),
-        ),
+        SizedBox(height: 8),
+        Text('data').md.color(Colors.white70),
       ],
     );
   }
 
   Container searchBar() {
     return Container(
-      height: 45,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      height: 50,
+      padding: FxPadding.pxy(h: 12, v: 5),
       decoration: BoxDecoration(
         color: kSecondaryColor,
         border: Border(
@@ -129,22 +93,23 @@ class ChatListContainer extends StatelessWidget {
       ),
       child: TextFormField(
         decoration: InputDecoration(
-          contentPadding:
-              const EdgeInsets.symmetric(vertical: 8, horizontal: 50),
+          contentPadding: FxPadding.pxy(v: 8, h: 50),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
+            borderRadius: FxRadius.r50,
             borderSide: BorderSide(color: Colors.white12, width: 1),
           ),
-          prefixIcon: Icon(
-            Icons.search_sharp,
-            color: Colors.white30,
-          ),
+          prefixIcon:
+              Icon(Icons.search_sharp, color: Colors.white30, size: 20).pl12,
           hintText: "Search or start new chat",
           fillColor: kPrimaryColor,
           filled: true,
-          hintStyle: TextStyle(color: Colors.white30),
-          focusColor: Colors.white12,
+          hintStyle: TextStyle(color: Colors.white30, fontSize: 14),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.white12, width: 1),
+            borderRadius: FxRadius.r50,
+          ),
         ),
+        style: TextStyle(color: Colors.white),
       ),
     );
   }
@@ -154,19 +119,19 @@ Container nav() {
   return Container(
     color: kPrimaryColor,
     height: 60,
-    padding: EdgeInsets.symmetric(horizontal: 20),
+    padding: FxPadding.px12,
     child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         CircleAvatar(
-          backgroundImage: NetworkImage(
-              'https://img.cinemablend.com/filter:scale/quill/7/2/e/d/2/5/72ed25eff59dc0bc480d81e8eed1448a99dc1655.jpg?mw=600'),
+          child: Icon(Icons.person, color: Colors.white30),
+          backgroundColor: Colors.white12,
         ),
+        Spacer(),
         Row(
           children: [
             activityIcon(icon: Icons.filter_tilt_shift, tip: 'Status'),
-            activityIcon(icon: Icons.comment, tip: 'New Chat'),
-            activityIcon(icon: Icons.more_vert, tip: 'Menu'),
+            activityIcon(icon: Icons.add, tip: 'New Chat'),
+            activityIcon(icon: Icons.more_horiz, tip: 'Menu'),
           ],
         ),
       ],
@@ -174,18 +139,12 @@ Container nav() {
   );
 }
 
-Widget activityIcon({IconData icon, String tip}) {
+Widget activityIcon({required IconData icon, required String tip}) {
   return Container(
-    padding: EdgeInsets.symmetric(horizontal: 12),
-    child: InkWell(
-      onTap: () {},
-      child: Tooltip(
-        message: tip,
-        child: Icon(
-          icon,
-          color: Colors.white60,
-        ),
-      ),
+    padding: FxPadding.pl20,
+    child: Tooltip(
+      message: tip,
+      child: Icon(icon, color: Colors.white60),
     ),
   );
 }
